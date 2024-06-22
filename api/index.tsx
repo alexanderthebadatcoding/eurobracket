@@ -109,6 +109,7 @@ function getSlugByAcronym(ShortName: string) {
           { acronym: "ALB", slug: "the-red-&-blacks" },
           { acronym: "SVK", slug: "the-boys" },
           { acronym: "GEO", slug: "the-crusaders" },
+          { acronym: "CZE", slug: "narodak" },
         ],
       },
     },
@@ -152,36 +153,6 @@ async function fetchESPNData(i: number) {
     let awayTeamColor = awayTeamData.color;
     let awayTeamAlt = newShade(awayTeamData.alternateColor, 20);
     let homeTeamAlt = newShade(homeTeamData.alternateColor, 20);
-
-    if (awayTeamShort === "MIA") {
-      awayTeamAlt = "#F9A01B";
-    }
-
-    if (homeTeamShort === "LAC") {
-      homeTeamColor = "016BB6";
-      homeTeamAlt = "#ffffff";
-    }
-
-    if (awayTeamShort === "PHI") {
-      awayTeamColor = "016BB6";
-      awayTeamAlt = "#ffffff";
-    }
-
-    if (homeTeamShort === "MIL") {
-      homeTeamAlt = "#EEE1C6";
-    }
-
-    if (homeTeamShort === "OKC") {
-      homeTeamAlt = "#ffffff";
-    }
-
-    if (awayTeamShort === "DAL") {
-      awayTeamColor = "012B5E";
-    }
-
-    if (awayTeamShort === "LAL") {
-      awayTeamAlt = "#F9A01B";
-    }
 
     const homeBG = hexToHexAlpha(homeTeamColor, 0.49);
     const awayBG = hexToHexAlpha(awayTeamColor, 0.49);
@@ -518,11 +489,11 @@ for (let i = 0; i < games?.length; i++) {
       intents: [
         <Button.Link href={`https://bracket.game/${homeSlug}`}>
           {" "}
-          {espnData?.homeTeamShort}
+          {espnData?.homeTeam}
         </Button.Link>,
         <Button.Link href={`https://bracket.game/${awaySlug}`}>
           {" "}
-          {espnData?.awayTeamShort}
+          {espnData?.awayTeam}
         </Button.Link>,
         // <Button value="back" action={backAction}>
         //   {leftArrow}
