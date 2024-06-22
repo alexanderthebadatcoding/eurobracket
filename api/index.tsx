@@ -22,7 +22,7 @@ function hexToHexAlpha(hex, alpha) {
 async function fetchDataAndFindSlug(slugName) {
   try {
     // Construct the URL with the provided slug name
-    const url = `https://api.bracket.game/trpc/collective.getPrices?batch=1&input=%7B%220%22%3A%7B%22contract%22%3A%22nba%22%2C%22currency%22%3A%22USDC%22%7D%7D`;
+    const url = `https://api.bracket.game/trpc/collective.getPrices?batch=1&input=%7B%220%22%3A%7B%22contract%22%3A%22euro24%22%2C%22currency%22%3A%22USDC%22%7D%7D`;
 
     // Fetch data from the URL
     const response = await fetch(url);
@@ -60,7 +60,7 @@ async function fetchDataAndFindSlug(slugName) {
 }
 
 // Call the function with the desired slug name
-fetchDataAndFindSlug("bucks-nation");
+// fetchDataAndFindSlug("bucks-nation");
 
 function newShade(hexColor: string, magnitude: number): string {
   hexColor = hexColor.replace(`#`, ``);
@@ -86,26 +86,29 @@ function getSlugByAcronym(ShortName: string) {
     result: {
       data: {
         json: [
-          { acronym: "BOS", slug: "celtics-nation" },
-          { acronym: "CHI", slug: "bulls-nation" },
-          { acronym: "OKC", slug: "thunder-nation" },
-          { acronym: "NYK", slug: "knickerbockers" },
-          { acronym: "NY", slug: "knickerbockers" },
-          { acronym: "DEN", slug: "nuggets-nation" },
-          { acronym: "MIL", slug: "bucks-nation" },
-          { acronym: "MIN", slug: "wolves-nation" },
-          { acronym: "NOP", slug: "pels-faithful" },
-          { acronym: "NO", slug: "pels-faithful" },
-          { acronym: "CLE", slug: "cavs-nation" },
-          { acronym: "LAC", slug: "clips-nation" },
-          { acronym: "ORL", slug: "magic-nation" },
-          { acronym: "DAL", slug: "mffls" },
-          { acronym: "IND", slug: "pacers-nation" },
-          { acronym: "PHX", slug: "sunsationals" },
-          { acronym: "LAL", slug: "lakers-nation" },
-          { acronym: "PHI", slug: "the-sixth-man" },
-          { acronym: "SAC", slug: "kings-court" },
-          { acronym: "MIA", slug: "heat-nation" },
+          { acronym: "FRA", slug: "les-bleus" },
+          { acronym: "GER", slug: "die-mannschaft" },
+          { acronym: "ESP", slug: "la-furia-roja" },
+          { acronym: "ENG", slug: "the-three-lions" },
+          { acronym: "POR", slug: "a-selecao" },
+          { acronym: "NED", slug: "oranje" },
+          { acronym: "BEL", slug: "the-red-devils" },
+          { acronym: "ITA", slug: "gli-azzurri" },
+          { acronym: "TUR", slug: "the-crescent-stars" },
+          { acronym: "DEN", slug: "danish-dynamite" },
+          { acronym: "AUT", slug: "das-nationalteam" },
+          { acronym: "SVK", slug: "the-falcons" },
+          { acronym: "UKR", slug: "the-blue-yellows" },
+          { acronym: "ROU", slug: "tricolorii" },
+          { acronym: "SUI", slug: "a-team" },
+          { acronym: "CRO", slug: "kockasti" },
+          { acronym: "SRB", slug: "the-eagles" },
+          { acronym: "SCO", slug: "the-tartan-army" },
+          { acronym: "HUN", slug: "magical-magyars" },
+          { acronym: "POL", slug: "the-white-reds" },
+          { acronym: "ALB", slug: "the-red-&-blacks" },
+          { acronym: "SVK", slug: "the-boys" },
+          { acronym: "GEO", slug: "the-crusaders" },
         ],
       },
     },
@@ -122,7 +125,7 @@ function getSlugByAcronym(ShortName: string) {
 async function fetchESPNData(i: number) {
   try {
     const response = await fetch(
-      "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard"
+      "https://site.api.espn.com/apis/site/v2/sports/soccer/UEFA.euro/scoreboard"
     );
     const data = await response.json();
     // Use ESPN data to populate the frame
@@ -142,6 +145,9 @@ async function fetchESPNData(i: number) {
     const homeTeamShort = homeTeamData.abbreviation;
     const awayTeamShort = awayTeamData.abbreviation;
     // const homeTeamAlt = homeTeamData.alternateColor;
+    const homeTeamLogo = homeTeamData.logo;
+    const awayTeamLogo = awayTeamData.logo;
+
     let homeTeamColor = homeTeamData.color;
     let awayTeamColor = awayTeamData.color;
     let awayTeamAlt = newShade(awayTeamData.alternateColor, 20);
@@ -307,6 +313,8 @@ async function fetchESPNData(i: number) {
       awayTeamPrice,
       headline,
       seriesNotes,
+      homeTeamLogo,
+      awayTeamLogo,
     };
   } catch (error) {
     console.error("Error fetching ESPN data:", error);
@@ -330,7 +338,7 @@ app.frame("/", (c) => {
       <div
         style={{
           alignItems: "center",
-          background: "white",
+          background: "#D4E3EA",
           display: "flex",
           flexDirection: "column",
           flexWrap: "nowrap",
@@ -343,13 +351,13 @@ app.frame("/", (c) => {
         <img
           alt="Home Team"
           height={400}
-          src="https://bracket.game/favicons/apple-touch-icon.png"
+          src="https://a.espncdn.com/i/leaguelogos/soccer/500-dark/74.png"
           style={{ margin: "0 2px" }}
           width={400}
         />
         <div
           style={{
-            color: "#2F5FF6",
+            color: "#0952A1",
             fontSize: 100,
             fontStyle: "normal",
             letterSpacing: "-0.025em",
@@ -361,7 +369,7 @@ app.frame("/", (c) => {
             fontFamily: "ui-sans-serif,system-ui,sans-serif",
           }}
         >
-          Bracket.Game
+          Scoreboard
         </div>
       </div>
     ),
@@ -420,6 +428,7 @@ for (let i = 0; i < games?.length; i++) {
                 width: "400px",
                 borderRadius: "50%",
                 backgroundColor: `#${espnData?.homeTeamColor}`,
+                border: `${espnData?.homeTeamAlt} 8px`,
                 display: "flex",
                 textAlign: "center",
                 justifyContent: "center",
@@ -456,6 +465,8 @@ for (let i = 0; i < games?.length; i++) {
                 width: "400px",
                 borderRadius: "50%",
                 backgroundColor: `#${espnData?.awayTeamColor}`,
+                border: `${espnData?.awayTeamAlt} 8px`,
+                backgroundSize: "cover",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
@@ -495,11 +506,12 @@ for (let i = 0; i < games?.length; i++) {
               width: "65%",
               flexDirection: "row",
               alignItems: "stretch",
+              textAlign: "center",
               justifyContent: "space-between",
             }}
           >
-            <span>🎩 {espnData?.homeTeamPrice}</span>
-            <span>🎩 {espnData?.awayTeamPrice}</span>
+            <span>↑ {espnData?.homeTeamPrice}</span>
+            <span>↑ {espnData?.awayTeamPrice}</span>
           </div>
         </div>
       ),
