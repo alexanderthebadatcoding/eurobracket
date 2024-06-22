@@ -487,11 +487,11 @@ for (let i = 0; i < games?.length; i++) {
         </div>
       ),
       intents: [
-        <Button.Link href={`https://bracket.game/${homeSlug}`}>
+        <Button.Link href={`https://bracket.game/euro24/${homeSlug}`}>
           {" "}
           {espnData?.homeTeam}
         </Button.Link>,
-        <Button.Link href={`https://bracket.game/${awaySlug}`}>
+        <Button.Link href={`https://bracket.game/euro24/${awaySlug}`}>
           {" "}
           {espnData?.awayTeam}
         </Button.Link>,
