@@ -156,6 +156,7 @@
           const homeTeamLogo = event.competitions[0].competitors[0].team.logo;
           const awayTeamLogo = event.competitions[0].competitors[1].team.logo;
           const gameState = event.status.type.state;
+          const oddsDetails = event.competitions[0]?.odds[0]?.details;
 
           let homeTeamScore = "";
 
@@ -228,11 +229,9 @@
                               <p>${awayTeamScore}</p>
                               </div>
                               <div class="last-play">${lastPlayText}</div>
-
+                              <div class="name">${oddsDetails}</div>
                               <div class="name">${headline}</div>
                               <div class="name">${seriesNotes}</div>
-
-
                           </div>
                       `;
         });
@@ -270,6 +269,7 @@
           const homeTeamLogo = event.competitions[0].competitors[0].team.logo;
           const awayTeamLogo = event.competitions[0].competitors[1].team.logo;
           const gameState = event.status.type.state;
+          const oddsDetails = event.competitions[0]?.odds[0]?.details;
 
           let homeTeamScore = "";
 
@@ -342,7 +342,7 @@
                               <p>${awayTeamScore}</p>
                               </div>
                               <div class="last-play">${lastPlayText}</div>
-
+                              <div class="name">${oddsDetails}</div>
                               <div class="name">${headline}</div>
                               <div class="name">${seriesNotes}</div>
                           </div>
