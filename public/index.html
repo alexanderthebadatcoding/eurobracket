@@ -14,12 +14,18 @@
         font-family: "Inter", Arial, Helvetica, sans-serif;
         margin: 0;
         padding: 0;
-        background-color: #1d1b1b;
+        background-color: #1b1b1b;
         color: azure;
+      }
+      hr {
+        color: #d7c378;
       }
       h1 {
         text-align: center;
-        color: #1d53fb;
+        color: #d7c378;
+      }
+      h2 {
+        text-align: center;
       }
       .links {
         text-align: center;
@@ -29,7 +35,7 @@
         display: inline-block;
         margin: 0 10px;
         text-decoration: underline;
-        color: #2f5ff6;
+        color: #d7c378;
       }
       .links a:hover {
         text-decoration: none;
@@ -40,7 +46,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        border-top: 1.25px solid #194ff7;
+        border-top: 1.25px solid #d7c378;
         padding: 10px;
       }
 
@@ -109,109 +115,22 @@
         <input type="checkbox" id="toggleLogos" checked /> Show Logos
       </label>
     </div> -->
+    <!-- <img src="https://a.espncdn.com/i/leaguelogos/soccer/500/84.png" /> -->
+    <h2 id="leagueName">Women's Soccer</h2>
     <div id="scoreboard">
+      <!-- Scoreboard content will be added dynamically using JavaScript -->
+    </div>
+    <hr />
+    <h2 id="leagueName">Men's Soccer</h2>
+    <div id="scoreboard2">
       <!-- Scoreboard content will be added dynamically using JavaScript -->
     </div>
 
     <script>
-      function getSlugByAcronym(shortName) {
-        const data = {
-          result: {
-            data: {
-              json: [
-                { acronym: "FRA", slug: "les-bleus" },
-                { acronym: "GER", slug: "die-mannschaft" },
-                { acronym: "ESP", slug: "la-furia-roja" },
-                { acronym: "ENG", slug: "the-three-lions" },
-                { acronym: "POR", slug: "a-selecao" },
-                { acronym: "NED", slug: "oranje" },
-                { acronym: "BEL", slug: "the-red-devils" },
-                { acronym: "ITA", slug: "gli-azzurri" },
-                { acronym: "TUR", slug: "the-crescent-stars" },
-                { acronym: "DEN", slug: "danish-dynamite" },
-                { acronym: "AUT", slug: "das-nationalteam" },
-                { acronym: "SVK", slug: "the-falcons" },
-                { acronym: "UKR", slug: "the-blue-yellows" },
-                { acronym: "ROU", slug: "tricolorii" },
-                { acronym: "SUI", slug: "a-team" },
-                { acronym: "CRO", slug: "kockasti" },
-                { acronym: "SRB", slug: "the-eagles" },
-                { acronym: "SCO", slug: "the-tartan-army" },
-                { acronym: "HUN", slug: "magical-magyars" },
-                { acronym: "POL", slug: "the-white-reds" },
-                { acronym: "ALB", slug: "the-red-&-blacks" },
-                { acronym: "SVK", slug: "the-boys" },
-                { acronym: "GEO", slug: "the-crusaders" },
-                { acronym: "CZE", slug: "narodak" },
-              ],
-            },
-          },
-        };
-
-        // Find matching acronym and return corresponding slug
-        const match = data.result.data.json.find(
-          (item) => item.acronym === shortName
-        );
-        return match ? match.slug : null;
-      }
-
-      async function fetchDataAndFindSlug(slugName) {
-        try {
-          // Construct the URL with the provided slug name
-          const url = `https://api.bracket.game/trpc/collective.getPrices?batch=1&input=%7B%220%22%3A%7B%22contract%22%3A%22euro24%22%2C%22currency%22%3A%22USDC%22%7D%7D`;
-
-          // Fetch data from the URL
-          const response = await fetch(url, {
-            headers: {
-              "Content-Type": "application/json", // Adjust content type as needed
-              // Add any other headers here
-            },
-          });
-          if (response.status === 204) {
-            console.log("No content received from the server");
-            return { slug: null, voteCount: null };
-          }
-          const jsonData = await response.json();
-
-          // console.log("Fetched Data:", jsonData); // Log the fetched data
-
-          // Initialize matching slug and voteCount
-          let matchingSlug;
-          let voteCount;
-
-          // Check if the data and json properties exist in the result
-          if (
-            jsonData.length > 0 &&
-            jsonData[0].result &&
-            jsonData[0].result.data
-          ) {
-            const data = jsonData[0].result.data;
-            // Check if the data object has a json property and it's an array
-            if (data.json && Array.isArray(data.json)) {
-              // Iterate over the json array
-              for (const item of data.json) {
-                if (item.slug === slugName) {
-                  matchingSlug = item.slug;
-                  voteCount = item.voteCount / 100;
-                  break;
-                }
-              }
-            }
-          }
-
-          // Log or return the matching slug and voteCount
-          // console.log("Matching Slug:", matchingSlug);
-          console.log("Vote Count:", voteCount);
-          return { voteCount };
-        } catch (error) {
-          console.error("Error fetching data:", error);
-        }
-      }
-
       async function fetchESPNData() {
         try {
           const response = await fetch(
-            "http://site.api.espn.com/apis/site/v2/sports/soccer/fifa.w.olympics/scoreboard"
+            "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.w.olympics/scoreboard"
           );
           const data = await response.json();
           return data;
@@ -224,6 +143,7 @@
       function updateScoreboard(data) {
         const events = data.events;
         let scoreboardHTML = "";
+        const leagueName = data.leagues[0].name;
 
         events.forEach((event) => {
           const clock = event.status.type.detail;
@@ -277,12 +197,11 @@
           if (
             event.competitions &&
             event.competitions[0] &&
-            event.competitions[0].broadcasts &&
-            event.competitions[0].broadcasts[0] &&
-            event.competitions[0].broadcasts[0].names &&
-            event.competitions[0].broadcasts[0].names.length > 0
+            event.competitions[0].geoBroadcasts &&
+            event.competitions[0].geoBroadcasts[1]
           ) {
-            broadcastName = event.competitions[0].broadcasts[0].names[0];
+            broadcastName =
+              event.competitions[0].geoBroadcasts[1].media.shortName;
           }
 
           let seriesNotes = "";
@@ -295,20 +214,14 @@
             seriesNotes = event.competitions[0].series.summary;
           }
 
-          const homeSlug = getSlugByAcronym(homeTeamShort);
-          const awaySlug = getSlugByAcronym(awayTeamShort);
-          const homePrice = fetchDataAndFindSlug(homeSlug) ?? "";
-
-          const awayPrice = fetchDataAndFindSlug(awaySlug) ?? "";
-
           // Construct HTML for each event
           scoreboardHTML += `
                           <div class="event">
                             <div class="name">${broadcastName}</div>
                             <div class="clock">${clock}</div>
                               <div class="teamLogos">
-                                  <a href="https://bracket.game/euro24/${homeSlug}" target="_blank"><img src="${homeTeamLogo}" alt="Home Team Logo"></a>
-                                  <a href="https://bracket.game/euro24/${awaySlug}" target="_blank"><img src="${awayTeamLogo}" alt="Away Team Logo"></a>
+                                <img src="${homeTeamLogo}" alt="Home Team Logo">
+                                <img src="${awayTeamLogo}" alt="Away Team Logo">
                               </div>
                               <div class="score">
                               <p>${homeTeamScore}</p>
@@ -328,10 +241,127 @@
         document.getElementById("scoreboard").innerHTML = scoreboardHTML;
       }
 
+      async function fetchMoreData() {
+        try {
+          const response2 = await fetch(
+            "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.olympics/scoreboard"
+          );
+          const data2 = await response2.json();
+          return data2;
+        } catch (error) {
+          console.error("Error fetching ESPN data:", error);
+          return null;
+        }
+      }
+
+      function updateSecondScoreboard(data2) {
+        const events2 = data2.events;
+        let scoreboardSecondHTML = "";
+        const leagueName = data2.leagues[0].name;
+
+        events2.forEach((event) => {
+          const clock = event.status.type.detail;
+          const homeTeamData = event.competitions[0].competitors[0].team;
+          const awayTeamData = event.competitions[0].competitors[1].team;
+          const homeTeam = homeTeamData.shortDisplayName;
+          const awayTeam = awayTeamData.shortDisplayName;
+          const homeTeamShort = homeTeamData.abbreviation;
+          const awayTeamShort = awayTeamData.abbreviation;
+          const homeTeamLogo = event.competitions[0].competitors[0].team.logo;
+          const awayTeamLogo = event.competitions[0].competitors[1].team.logo;
+          const gameState = event.status.type.state;
+
+          let homeTeamScore = "";
+
+          if (event.status.type.state === "pre") {
+            homeTeamScore = "";
+          } else {
+            homeTeamScore = event.competitions[0].competitors[0].score;
+          }
+
+          let awayTeamScore = "";
+
+          if (event.status.type.state === "pre") {
+            awayTeamScore = "";
+          } else {
+            awayTeamScore = event.competitions[0].competitors[1].score;
+          }
+          let headline = "";
+          if (
+            event.competitions &&
+            event.competitions[0] &&
+            event.competitions[0].notes &&
+            event.competitions[0].notes[0] &&
+            event.competitions[0].notes[0].headline
+          ) {
+            headline = event.competitions[0].notes[0].headline;
+          }
+          let lastPlayText = "";
+          if (
+            event.competitions &&
+            event.competitions[0] &&
+            event.competitions[0].situation &&
+            event.competitions[0].situation.lastPlay &&
+            event.competitions[0].situation.lastPlay.text
+          ) {
+            lastPlayText = event.competitions[0].situation.lastPlay.text;
+          }
+
+          let broadcastName = "";
+          if (
+            event.competitions &&
+            event.competitions[0] &&
+            event.competitions[0].geoBroadcasts &&
+            event.competitions[0].geoBroadcasts[1]
+          ) {
+            broadcastName =
+              event.competitions[0].geoBroadcasts[1].media.shortName;
+          }
+
+          let seriesNotes = "";
+          if (
+            event.competitions &&
+            event.competitions[0] &&
+            event.competitions[0].series &&
+            event.competitions[0].series.summary
+          ) {
+            seriesNotes = event.competitions[0].series.summary;
+          }
+
+          // Construct HTML for each event
+          scoreboardSecondHTML += `
+                          <div class="event">
+                            <div class="name">${broadcastName}</div>
+                            <div class="clock">${clock}</div>
+                              <div class="teamLogos">
+                                <img src="${homeTeamLogo}" alt="Home Team Logo">
+                                <img src="${awayTeamLogo}" alt="Away Team Logo">
+                              </div>
+                              <div class="score">
+                              <p>${homeTeamScore}</p>
+                              <p>${awayTeamScore}</p>
+                              </div>
+                              <div class="last-play">${lastPlayText}</div>
+
+                              <div class="name">${headline}</div>
+                              <div class="name">${seriesNotes}</div>
+                          </div>
+                      `;
+        });
+
+        // Update the HTML content of the scoreboard
+        document.getElementById("scoreboard2").innerHTML = scoreboardSecondHTML;
+      }
+
       async function updateScoreboardPeriodically() {
         const data = await fetchESPNData();
+        const data2 = await fetchMoreData();
+
         if (data) {
           updateScoreboard(data);
+        }
+        if (data2) {
+          updateSecondScoreboard(data2);
         }
       }
 
