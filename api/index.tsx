@@ -353,7 +353,7 @@ app.frame("/", (c) => {
             fontFamily: "ui-sans-serif,system-ui,sans-serif",
           }}
         >
-          Mens Soccer Scoreboard
+          Mens Soccer
         </div>
       </div>
     ),
