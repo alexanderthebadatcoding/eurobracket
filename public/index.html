@@ -156,7 +156,7 @@
           const homeTeamLogo = event.competitions[0].competitors[0].team.logo;
           const awayTeamLogo = event.competitions[0].competitors[1].team.logo;
           const gameState = event.status.type.state;
-          const oddsDetails = event.competitions[0]?.odds[0]?.details;
+          const oddsDetails = event.competitions[0]?.odds[0]?.details ?? "";
 
           let homeTeamScore = "";
 
@@ -257,7 +257,7 @@
           const homeTeamLogo = event.competitions[0].competitors[0].team.logo;
           const awayTeamLogo = event.competitions[0].competitors[1].team.logo;
           const gameState = event.status.type.state;
-          const oddsDetails = event.competitions[0]?.odds[0]?.details;
+          const oddsDetails = event.competitions[0]?.odds[0]?.details ?? "";
 
           let homeTeamScore = "";
 
