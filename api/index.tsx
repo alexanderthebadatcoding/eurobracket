@@ -22,7 +22,7 @@ function hexToHexAlpha(hex, alpha) {
 async function fetchDataAndFindSlug(slugName) {
   try {
     // Construct the URL with the provided slug name
-    const url = `https://api.bracket.game/trpc/collective.getPrices?batch=1&input=%7B%220%22%3A%7B%22contract%22%3A%22euro24%22%2C%22currency%22%3A%22USDC%22%7D%7D`;
+    const url = `https://api.bracket.game/trpc/collective.getPrices?batch=1&input=%7B%220%22%3A%7B%22contract%22%3A%22parissoccer%22%2C%22currency%22%3A%22USDC%22%7D%7D`;
 
     // Fetch data from the URL
     const response = await fetch(url);
@@ -86,9 +86,9 @@ function getSlugByAcronym(ShortName: string) {
     result: {
       data: {
         json: [
-          { acronym: "FRA", slug: "les-bleus" },
+          { acronym: "FRA", slug: "les-bleus-oms" },
           { acronym: "GER", slug: "die-mannschaft" },
-          { acronym: "ESP", slug: "la-furia-roja" },
+          { acronym: "ESP", slug: "la-furia-roja-oms" },
           { acronym: "ENG", slug: "the-three-lions" },
           { acronym: "POR", slug: "a-selecao" },
           { acronym: "NED", slug: "oranje" },
@@ -98,7 +98,7 @@ function getSlugByAcronym(ShortName: string) {
           { acronym: "DEN", slug: "danish-dynamite" },
           { acronym: "AUT", slug: "das-nationalteam" },
           { acronym: "SVK", slug: "the-falcons" },
-          { acronym: "UKR", slug: "the-blue-yellows" },
+          { acronym: "UKR", slug: "the-blue-yellows-oms" },
           { acronym: "ROU", slug: "tricolorii" },
           { acronym: "SUI", slug: "a-team" },
           { acronym: "CRO", slug: "kockasti" },
@@ -108,8 +108,21 @@ function getSlugByAcronym(ShortName: string) {
           { acronym: "POL", slug: "the-white-reds" },
           { acronym: "ALB", slug: "the-red-&-blacks" },
           { acronym: "SVK", slug: "the-boys" },
-          { acronym: "GEO", slug: "the-crusaders" },
+          { acronym: "MOR", slug: "the-atlas-lions-oms" },
+          { acronym: "MAR", slug: "the-atlas-lions-oms" },
           { acronym: "CZE", slug: "narodak" },
+          { acronym: "ARG", slug: "la-albisceleste-oms" },
+          { acronym: "USA", slug: "team-usa-oms" },
+          { acronym: "PAR", slug: "la-albirroja-oms" },
+          { acronym: "EGY", slug: "the-pharaohs-oms" },
+          { acronym: "JPN", slug: "samurai-blues-oms" },
+          { acronym: "GUI", slug: "national-elephants-oms" },
+          { acronym: "MLI", slug: "the-eagles-oms" },
+          { acronym: "UZB", slug: "white-wolves-oms" },
+          { acronym: "ISR", slug: "the-sky-blue-team-oms" },
+          { acronym: "NZL", slug: "all-whites-oms" },
+          { acronym: "IRQ", slug: "babylon-lions-oms" },
+          { acronym: "DOM", slug: "los-quisqueyanos-oms" },
         ],
       },
     },
@@ -126,7 +139,7 @@ function getSlugByAcronym(ShortName: string) {
 async function fetchESPNData(i: number) {
   try {
     const response = await fetch(
-      "https://site.api.espn.com/apis/site/v2/sports/soccer/UEFA.euro/scoreboard"
+      "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.olympics/scoreboard"
     );
     const data = await response.json();
     // Use ESPN data to populate the frame
@@ -322,7 +335,7 @@ app.frame("/", (c) => {
         <img
           alt="Home Team"
           height={400}
-          src="https://a.espncdn.com/i/leaguelogos/soccer/500-dark/74.png"
+          src="https://a.espncdn.com/i/leaguelogos/soccer/500-dark/71.png"
           style={{ margin: "0 2px" }}
           width={400}
         />
@@ -340,7 +353,7 @@ app.frame("/", (c) => {
             fontFamily: "ui-sans-serif,system-ui,sans-serif",
           }}
         >
-          Scoreboard
+          Mens Soccer Scoreboard
         </div>
       </div>
     ),
@@ -487,11 +500,11 @@ for (let i = 0; i < games?.length; i++) {
         </div>
       ),
       intents: [
-        <Button.Link href={`https://bracket.game/euro24/${homeSlug}`}>
+        <Button.Link href={`https://bracket.game/parissoccer/${homeSlug}`}>
           {" "}
           {espnData?.homeTeam}
         </Button.Link>,
-        <Button.Link href={`https://bracket.game/euro24/${awaySlug}`}>
+        <Button.Link href={`https://bracket.game/parissoccer/${awaySlug}`}>
           {" "}
           {espnData?.awayTeam}
         </Button.Link>,
