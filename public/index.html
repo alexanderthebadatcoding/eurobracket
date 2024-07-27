@@ -194,17 +194,6 @@
             lastPlayText = event.competitions[0].situation.lastPlay.text;
           }
 
-          let broadcastName = "";
-          if (
-            event.competitions &&
-            event.competitions[0] &&
-            event.competitions[0].geoBroadcasts &&
-            event.competitions[0].geoBroadcasts[1]
-          ) {
-            broadcastName =
-              event.competitions[0].geoBroadcasts[1].media.shortName;
-          }
-
           let seriesNotes = "";
           if (
             event.competitions &&
@@ -217,23 +206,22 @@
 
           // Construct HTML for each event
           scoreboardHTML += `
-                          <div class="event">
-                            <div class="name">${broadcastName}</div>
-                            <div class="clock">${clock}</div>
-                              <div class="teamLogos">
-                                <img src="${homeTeamLogo}" alt="Home Team Logo">
-                                <img src="${awayTeamLogo}" alt="Away Team Logo">
-                              </div>
-                              <div class="score">
-                              <p>${homeTeamScore}</p>
-                              <p>${awayTeamScore}</p>
-                              </div>
-                              <div class="last-play">${lastPlayText}</div>
-                              <div class="name">${oddsDetails}</div>
-                              <div class="name">${headline}</div>
-                              <div class="name">${seriesNotes}</div>
-                          </div>
-                      `;
+                                <div class="event">
+                                  <div class="clock">${clock}</div>
+                                    <div class="teamLogos">
+                                      <img src="${homeTeamLogo}" alt="Home Team Logo">
+                                      <img src="${awayTeamLogo}" alt="Away Team Logo">
+                                    </div>
+                                    <div class="score">
+                                    <p>${homeTeamScore}</p>
+                                    <p>${awayTeamScore}</p>
+                                    </div>
+                                    <div class="last-play">${lastPlayText}</div>
+                                    <div class="name">${oddsDetails}</div>
+                                    <div class="name">${headline}</div>
+                                    <div class="name">${seriesNotes}</div>
+                                </div>
+                            `;
         });
 
         // Update the HTML content of the scoreboard
@@ -330,23 +318,22 @@
 
           // Construct HTML for each event
           scoreboardSecondHTML += `
-                          <div class="event">
-                            <div class="name">${broadcastName}</div>
-                            <div class="clock">${clock}</div>
-                              <div class="teamLogos">
-                                <img src="${homeTeamLogo}" alt="Home Team Logo">
-                                <img src="${awayTeamLogo}" alt="Away Team Logo">
-                              </div>
-                              <div class="score">
-                              <p>${homeTeamScore}</p>
-                              <p>${awayTeamScore}</p>
-                              </div>
-                              <div class="last-play">${lastPlayText}</div>
-                              <div class="name">${oddsDetails}</div>
-                              <div class="name">${headline}</div>
-                              <div class="name">${seriesNotes}</div>
-                          </div>
-                      `;
+                                <div class="event">
+                                  <div class="clock">${clock}</div>
+                                    <div class="teamLogos">
+                                      <img src="${homeTeamLogo}" alt="Home Team Logo">
+                                      <img src="${awayTeamLogo}" alt="Away Team Logo">
+                                    </div>
+                                    <div class="score">
+                                    <p>${homeTeamScore}</p>
+                                    <p>${awayTeamScore}</p>
+                                    </div>
+                                    <div class="last-play">${lastPlayText}</div>
+                                    <div class="name">${oddsDetails}</div>
+                                    <div class="name">${headline}</div>
+                                    <div class="name">${seriesNotes}</div>
+                                </div>
+                            `;
         });
 
         // Update the HTML content of the scoreboard
