@@ -156,14 +156,16 @@
           const homeTeamLogo = event.competitions[0].competitors[0].team.logo;
           const awayTeamLogo = event.competitions[0].competitors[1].team.logo;
           const gameState = event.status.type.state;
-          const oddsDetails = event.competitions[0]?.odds[0]?.details ?? "";
+          let oddsDetials;
 
           let homeTeamScore = "";
 
           if (event.status.type.state === "pre") {
             homeTeamScore = "";
+            oddsDetails = event.competitions[0].odds[0].details;
           } else {
             homeTeamScore = event.competitions[0].competitors[0].score;
+            oddsDetails = "";
           }
 
           let awayTeamScore = "";
